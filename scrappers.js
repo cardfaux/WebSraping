@@ -7,13 +7,19 @@ async function scrapeProduct(url) {
 
 	const [el] = await page.$x('//*[@id="imgBlkFront"]');
 	const src = await el.getProperty('src');
-	const srcTxt = await src.jsonValue();
+	const imageUrl = await src.jsonValue();
 
 	const [el2] = await page.$x('//*[@id="productTitle"]');
 	const txt = await el2.getProperty('textContent');
-	const rawTxt = await txt.jsonValue();
+	const title = await txt.jsonValue();
 
-	console.log({ srcTxt, rawTxt });
+	const [el3] = await page.$x(
+		'/html/body/div[2]/div[1]/div[6]/div[3]/div[3]/div[1]/form/div/div/div[1]/div/div/div[1]/a/h5/div/div[2]/div/span[2]'
+	);
+	const txt2 = await el3.getProperty('textContent');
+	const price = await txt2.jsonValue();
+
+	console.log({ imageUrl, title, price });
 
 	browser.close();
 }
